@@ -1,0 +1,1490 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Lua,Lims," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.jpeg?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="LIMS暴露函数整理,此篇文档主要适用于有简单Lua基础的人阅读。读此文章前务必先通读[Lua 基础](http://dev.genee.cn/doku.php/public/luabasic.md)">
+<meta name="keywords" content="Lua,Lims">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Q框架 - Lua函数">
+<meta property="og:url" content="http://unpc.github.com/2017/04/06/Q-Lua-Fuc/index.html">
+<meta property="og:site_name" content="ZiCheng Liu">
+<meta property="og:description" content="LIMS暴露函数整理,此篇文档主要适用于有简单Lua基础的人阅读。读此文章前务必先通读[Lua 基础](http://dev.genee.cn/doku.php/public/luabasic.md)">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-08-21T15:46:31.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Q框架 - Lua函数">
+<meta name="twitter:description" content="LIMS暴露函数整理,此篇文档主要适用于有简单Lua基础的人阅读。读此文章前务必先通读[Lua 基础](http://dev.genee.cn/doku.php/public/luabasic.md)">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://unpc.github.com/2017/04/06/Q-Lua-Fuc/"/>
+
+
+
+
+
+  <title>Q框架 - Lua函数 | ZiCheng Liu</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ZiCheng Liu</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Code Is Life</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://unpc.github.com/2017/04/06/Q-Lua-Fuc/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Unpc">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/photo.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZiCheng Liu">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Q框架 - Lua函数</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-06T12:00:00+08:00">
+                2017-04-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Lua/" itemprop="url" rel="index">
+                    <span itemprop="name">Lua</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+              <div class="post-description">
+                  LIMS暴露函数整理,此篇文档主要适用于有简单Lua基础的人阅读。读此文章前务必先通读[Lua 基础](http://dev.genee.cn/doku.php/public/luabasic.md)
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="LIMS暴露函数整理"><a href="#LIMS暴露函数整理" class="headerlink" title="LIMS暴露函数整理"></a>LIMS暴露函数整理</h1><p>此篇文档主要适用于有简单Lua基础的人阅读。读此文章前务必先通读<a href="http://dev.genee.cn/doku.php/public/luabasic.md" target="_blank" rel="external">Lua 基础</a></p>
+<h2 id="1-基础"><a href="#1-基础" class="headerlink" title="1.基础"></a>1.基础</h2><p>现阶段LIMS中常用到的Lua脚本有2类，预约自定义脚本和计费自定义脚本</p>
+<p>所谓基础函数是指，任何LIMS中的Lua脚本都可直接调用下列变量、函数。</p>
+<p>※符号标记了重点函数，务必熟练使用。</p>
+<hr>
+<h3 id="※now"><a href="#※now" class="headerlink" title="※now"></a>※<code>now</code></h3><p><strong>功能：</strong></p>
+<p>变量，直接使用即可</p>
+<hr>
+<h3 id="※dateT-time"><a href="#※dateT-time" class="headerlink" title="※dateT(time)"></a>※<code>dateT(time)</code></h3><p><strong>功能：</strong></p>
+<p>返回传入时间的月、日、时、分、秒等信息</p>
+<p>os 存在安全问题, 并且 os.date(“*t”, time) 获取时间会存在时区问题，此函数相当于重写原有的os.date()</p>
+<p><strong>参数：</strong></p>
+<ul>
+<li><code>time</code><a href="http://baike.baidu.com/link?url=BzzzpWrHbG5fAZGWjLwDzc8rd-EPVtw5VlcTKnatwdWl4W39urvmYUv5GGYtemHgNH9metz1Mx1I-ci0mb89uRUx8uI-OTFtwq3SUJGEh13ouKNe76BgVL-D4RiAM69S" target="_blank" rel="external">时间戳</a>，如果没有传入则为当前时间 </li>
+</ul>
+<p><strong>返回值：</strong></p>
+<ul>
+<li>数组形式</li>
+<li>数组key<ul>
+<li>‘year’ 年</li>
+<li>‘month’ 月份(01-12)</li>
+<li>‘nmonth’ 月份，不带前导0(1-12)</li>
+<li>‘day’ 日期</li>
+<li>‘hour’ 24小时制时间</li>
+<li>‘ghour’ 12小时制时间</li>
+<li>‘min’ 分钟</li>
+<li>‘sec’ 秒</li>
+<li>‘wday’ 星期(1-7，其中1代表周日，2代表周一……)</li>
+<li>‘week’ 一年中第几周</li>
+<li>‘yday’ 一年第几天</li>
+</ul>
+</li>
+</ul>
+<p><strong>例子：</strong></p>
+<ul>
+<li>dateT()[‘hour’]为当前时间的小时</li>
+<li>dateT(0)[‘year’] == 1970</li>
+<li>实例</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">--预约开始时间，只能是每天八点后</div><div class="line">can_resrv = false</div><div class="line">err_msg = &quot;预约开始时间，只能是每天八点后&quot;;</div><div class="line"></div><div class="line">if (dateT(start_time)[&apos;hour&apos;] &gt;= 8) then</div><div class="line">	can_reserv = true</div><div class="line">end</div></pre></td></tr></table></figure>
+<hr>
+<h3 id="week-day-time"><a href="#week-day-time" class="headerlink" title="week_day(time)"></a><code>week_day(time)</code></h3><p><strong>功能：</strong></p>
+<p>等同于<code>dateT(time)[&#39;wday&#39;]</code>，但是从0开始(周日是0，周一是1)</p>
+<p><strong>参数：</strong></p>
+<ul>
+<li><code>time</code>时间戳，如果没有传入则为当前时间</li>
+</ul>
+<p><strong>返回值：</strong></p>
+<ul>
+<li>[0-6]</li>
+</ul>
+<hr>
+<h3 id="month-time"><a href="#month-time" class="headerlink" title="month(time)"></a><code>month(time)</code></h3><p><strong>功能：</strong></p>
+<p>完全等同于<code>dateT(time)[&#39;nmonth&#39;]</code></p>
+<p><strong>参数：</strong></p>
+<ul>
+<li><code>time</code>时间戳，如果没有传入则为当前时间</li>
+</ul>
+<p><strong>返回值：</strong></p>
+<ul>
+<li>1~12</li>
+</ul>
+<hr>
+<h3 id="month-day-time"><a href="#month-day-time" class="headerlink" title="month_day(time)"></a><code>month_day(time)</code></h3><p><strong>功能：</strong></p>
+<p>一个月中第几天，不带前导0</p>
+<p><strong>参数：</strong></p>
+<ul>
+<li><code>time</code>时间戳，如果没有传入则为当前时间</li>
+</ul>
+<p><strong>返回值：</strong></p>
+<ul>
+<li>1~31</li>
+</ul>
+<hr>
+<h3 id="today-time"><a href="#today-time" class="headerlink" title="today(time)"></a><code>today(time)</code></h3><p><strong>功能：</strong></p>
+<p>返回一个将formart解析后的时间戳，实际上是PHP中的strtotime，详见<a href="http://www.w3school.com.cn/php/func_date_strtotime.asp" target="_blank" rel="external">PHP strtotime() 函数</a>、<a href="http://php.net/manual/zh/function.strtotime.php" target="_blank" rel="external">PHP: strtotime - Manual</a>。</p>
+<p><strong>参数：</strong></p>
+<ul>
+<li><code>format</code>规定日期/时间字符串。</li>
+</ul>
+<p><strong>返回值：</strong></p>
+<ul>
+<li>计算后时间戳</li>
+</ul>
+<p><strong>例子：</strong></p>
+<ul>
+<li>today(“now”) 当前时间戳</li>
+<li>today(“15 October 1980”)1980年10月15日的时间戳</li>
+<li>today(“+5 hours”)当前时间的5小时后</li>
+<li>today(“+1 week”)当前时间1周后</li>
+<li>today(“+1 week 3 days 7 hours 5 seconds”)。。你猜</li>
+<li>today(“next Monday”)当前时间的下一个周一，0点</li>
+<li>today(“last Sunday”))当前时间上一个周日，0点</li>
+</ul>
+<hr>
+<h3 id="month-start-time"><a href="#month-start-time" class="headerlink" title="month_start(time)"></a><code>month_start(time)</code></h3><h3 id="month-end-time"><a href="#month-end-time" class="headerlink" title="month_end(time)"></a><code>month_end(time)</code></h3><h3 id="※week-start-time"><a href="#※week-start-time" class="headerlink" title="※week_start(time)"></a>※<code>week_start(time)</code></h3><h3 id="※week-end-time"><a href="#※week-end-time" class="headerlink" title="※week_end(time)"></a>※<code>week_end(time)</code></h3><h3 id="※day-start-time"><a href="#※day-start-time" class="headerlink" title="※day_start(time)"></a>※<code>day_start(time)</code></h3><h3 id="※day-end-time"><a href="#※day-end-time" class="headerlink" title="※day_end(time)"></a>※<code>day_end(time)</code></h3><p><strong>功能：</strong></p>
+<p>获得传入时间的月(周、日)开始(结束时间)</p>
+<p><strong>参数：</strong></p>
+<ul>
+<li><code>time</code>时间戳，如果没有传入则为当前时间</li>
+</ul>
+<p><strong>返回值：</strong></p>
+<ul>
+<li>时间戳（start为当天00:00:00，结束时间为当天23:59:59）</li>
+</ul>
+<hr>
+<h3 id="days-number"><a href="#days-number" class="headerlink" title="days(number)"></a><code>days(number)</code></h3><p><strong>功能：</strong></p>
+<p>再也不用写86400…将天数换算成秒</p>
+<p><strong>参数：</strong></p>
+<ul>
+<li>number 天数</li>
+</ul>
+<p><strong>返回值：</strong></p>
+<ul>
+<li>number * 86400(单位:秒)</li>
+</ul>
+<hr>
+<h3 id="second-to-hour-time-n"><a href="#second-to-hour-time-n" class="headerlink" title="second_to_hour(time, n)"></a><code>second_to_hour(time, n)</code></h3><p><strong>功能：</strong></p>
+<p>再也不用写/3600，将秒数换算小时数</p>
+<p><strong>参数：</strong></p>
+<ul>
+<li>time 秒数</li>
+<li>n 小数点后位数，默认为4</li>
+</ul>
+<p><strong>返回值：</strong></p>
+<ul>
+<li>time/3600，小数点后四舍五入到第n位</li>
+</ul>
+<hr>
+<h3 id="sprintf-str-arg1-arg2"><a href="#sprintf-str-arg1-arg2" class="headerlink" title="sprintf(str, arg1, arg2 ....)"></a><code>sprintf(str, arg1, arg2 ....)</code></h3><p><strong>功能：</strong></p>
+<ul>
+<li>把百分号(%)符号替换成一个作为参数进行传递的变量：</li>
+</ul>
+<p><strong>参数：</strong></p>
+<ul>
+<li>str 必需。规定字符串以及如何格式化其中的变量。</li>
+<li>arg1    必需。规定插到 format 字符串中第一个 % 符号处的参数。</li>
+<li>arg2…    可选。规定插到 format 字符串中第二个 % 符号处的参数。</li>
+</ul>
+<p><strong>返回值：</strong></p>
+<ul>
+<li>替换后的字符串</li>
+</ul>
+<p><strong>例子：</strong></p>
+<ul>
+<li>描述收费备注时常用</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">dtemplate =&apos;&lt;span&gt;%s%.2f/小时 * %.2f&lt;/span&gt; &apos;</div><div class="line">         ..&apos;&lt;span&gt;共计 %s%.2f 元&lt;/span&gt;&apos;</div><div class="line"></div><div class="line">description =  sprintf(&apos;&lt;p&gt;&apos;..dtemplate..&apos;&lt;/p&gt;&apos;,</div><div class="line">	currency, 6, 10 , currency, 60)</div><div class="line">--收费备注一栏此时为如下字样：¥6.00/小时 * 10.00 共计 ¥60.00 元</div></pre></td></tr></table></figure>
+<ul>
+<li>详见<a href="http://www.w3school.com.cn/php/func_string_sprintf.asp" target="_blank" rel="external">PHP sprintf() 函数</a></li>
+</ul>
+<hr>
+<h3 id="round-float-n"><a href="#round-float-n" class="headerlink" title="round(float, n)"></a><code>round(float, n)</code></h3><p><strong>功能：</strong></p>
+<p>round() 函数对浮点数进行四舍五入。</p>
+<p><strong>参数：</strong></p>
+<ul>
+<li><code>float</code>需要被四舍五入的浮点数</li>
+<li><code>n</code>小数点后的位数，默认为0</li>
+</ul>
+<p><strong>返回值：</strong></p>
+<ul>
+<li>浮点数进行四舍五入后的结果</li>
+</ul>
+<hr>
+<h3 id="date-format-timestamp"><a href="#date-format-timestamp" class="headerlink" title="date(format,timestamp)"></a><code>date(format,timestamp)</code></h3><p><strong>功能：</strong></p>
+<p>按照格式返回日期字符串</p>
+<p><strong>参数：</strong></p>
+<ul>
+<li>format     规定输出日期字符串的格式。</li>
+<li>timestamp    当前时间戳，默认当前时间</li>
+</ul>
+<p><strong>返回值：</strong></p>
+<ul>
+<li>按照format格式规定的字符串</li>
+</ul>
+<p><strong>例子：</strong></p>
+<ul>
+<li>详见<a href="http://www.w3school.com.cn/php/func_date_date.asp" target="_blank" rel="external">PHP date() 函数</a></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">date(&apos;Y-m-d H:i:s&apos;, 0) --1970-01-01 08:00:00</div></pre></td></tr></table></figure>
+<hr>
+<h3 id="※mktime-hour-minute-second-month-day-year"><a href="#※mktime-hour-minute-second-month-day-year" class="headerlink" title="※mktime(hour,minute,second,month,day,year);"></a>※<code>mktime(hour,minute,second,month,day,year);</code></h3><p><strong>功能：</strong></p>
+<p>根据传入参数获得时间戳</p>
+<p><strong>参数：</strong></p>
+<ul>
+<li>hour    小时</li>
+<li>minute    分</li>
+<li>second    秒</li>
+<li>month    月</li>
+<li>day        日</li>
+<li>year    年</li>
+</ul>
+<p>均是整数</p>
+<p><strong>返回值：</strong></p>
+<ul>
+<li>时间戳</li>
+</ul>
+<p><strong>例子：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">time1 = mktime(8, 30 , 00, 2017, 4, 1)</div><div class="line">date(&apos;Y年m月d日 H:i:s&apos;, time1) -- 2017年4月1日 08:30:00</div></pre></td></tr></table></figure>
+<hr>
+<h3 id="strong-string"><a href="#strong-string" class="headerlink" title="strong(string)"></a><code>strong(string)</code></h3><p><strong>功能：</strong></p>
+<p>返回被<code>&lt;strong&gt;</code>标签包裹的string</p>
+<p><strong>参数：</strong></p>
+<ul>
+<li>string    希望被包裹的字符串</li>
+</ul>
+<p><strong>返回值：</strong></p>
+<ul>
+<li><code>&lt;strong&gt;string&lt;/strong&gt;</code></li>
+</ul>
+<h2 id="2-预约相关"><a href="#2-预约相关" class="headerlink" title="2.预约相关"></a>2.预约相关</h2><p>现阶段LIMS中常用到的Lua脚本有2类，预约自定义脚本和计费自定义脚本</p>
+<p>下列变量及函数只能预约自定义脚本中使用！</p>
+<p>※符号标记了重点函数，务必熟练使用。</p>
+<hr>
+<p>###※<code>old_start_time</code></p>
+<p>###※<code>old_end_time</code></p>
+<p>###※<code>start_time</code></p>
+<p>###※<code>end_time</code></p>
+<p><strong>功能：</strong></p>
+<p>变量，从上至下代表，旧预约结束实际、旧预约开始时间(用于修改)，开始时间、结束时间</p>
+<p><strong>例子：</strong></p>
+<ul>
+<li>当天只能预约10天后一整天的时间</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">--核心逻辑</div><div class="line">start_time &lt; day_start(now) + days(10) </div><div class="line">and start_time &gt; day_end(now) + days(10)</div><div class="line">and end_time &lt; day_end(now) + days(10) </div><div class="line">and end_time &gt; day_end(now) + days(10)</div></pre></td></tr></table></figure>
+<ul>
+<li><strong>进阶：</strong>每人每周最多预约8小时(<code>old_.*_time</code>是必要的，不然会在用户修改预约时出现bug)</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">--核心逻辑</div><div class="line">month_reserv_time = user_reserv_time(weekstart(now), week_end(now)) - (old_end_time - old_start_time) + (start_time - end_time)</div><div class="line">moth_reserv_time &lt; 8 * 3600</div></pre></td></tr></table></figure>
+<hr>
+<h3 id="is-incharge"><a href="#is-incharge" class="headerlink" title="is_incharge()"></a><code>is_incharge()</code></h3><p><strong>功能：</strong></p>
+<p>判断当前用户是否是仪器负责人</p>
+<p><strong>参数：</strong></p>
+<ul>
+<li>无</li>
+</ul>
+<p><strong>返回值：</strong></p>
+<ul>
+<li><code>(boolen)</code>推荐放在if中直接使用</li>
+</ul>
+<hr>
+<h3 id="is-contact"><a href="#is-contact" class="headerlink" title="is_contact()"></a><code>is_contact()</code></h3><p><strong>功能：</strong></p>
+<p>判断当前用户是否是仪器联系人</p>
+<p><strong>参数：</strong></p>
+<ul>
+<li>无</li>
+</ul>
+<p><strong>返回值：</strong></p>
+<ul>
+<li><code>(boolen)</code>推荐放在if中直接使用</li>
+</ul>
+<hr>
+<h3 id="※user-tag-name"><a href="#※user-tag-name" class="headerlink" title="※user_tag(name)"></a>※<code>user_tag(name)</code></h3><p><strong>功能：</strong></p>
+<p>判断当前用户是否属于某用户标签</p>
+<p><strong>参数：</strong></p>
+<ul>
+<li><code>name</code>用户标签名称</li>
+</ul>
+<p><strong>返回值：</strong></p>
+<ul>
+<li><code>(boolen)</code>推荐放在if中直接使用</li>
+</ul>
+<p><strong>例子：</strong></p>
+<ul>
+<li></li>
+</ul>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">--首先设置校内用户标签</span></div><div class="line">user_tag(<span class="string">"校内"</span>)<span class="comment">--判断当前用户属于校内</span></div><div class="line"><span class="keyword">not</span>(user_tag(<span class="string">"校内"</span>))<span class="comment">--判断当前用户属于校外</span></div></pre></td></tr></table></figure>
+<hr>
+<h3 id="user-time-dtstart-dtend"><a href="#user-time-dtstart-dtend" class="headerlink" title="user_time(dtstart, dtend)"></a><code>user_time(dtstart, dtend)</code></h3><p><strong>功能：</strong></p>
+<p>判断当前用户从dtstart到dtend之间，当前仪器已关联预约记录的<strong>使用</strong>时长</p>
+<p><strong>参数：</strong></p>
+<ul>
+<li><code>dtstart</code>    开始时间</li>
+<li><code>dtend</code>        结束时间</li>
+</ul>
+<p><strong>返回值：</strong></p>
+<ul>
+<li><code>(number)</code>总时长，单位秒</li>
+</ul>
+<p><strong>例子：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">--用户每月只能最多[使用]当前仪器8小时</div><div class="line">user_time(month_start(now), month_end(now)) &lt; 8 * 3600</div></pre></td></tr></table></figure>
+<hr>
+<h3 id="※user-reserv-time-dtstart-dtend"><a href="#※user-reserv-time-dtstart-dtend" class="headerlink" title="※user_reserv_time(dtstart, dtend)"></a>※<code>user_reserv_time(dtstart, dtend)</code></h3><p><strong>功能：</strong></p>
+<p>当前用户从dtstart到dtend之间，当前仪器的<strong>预约</strong>时长</p>
+<p><strong>参数：</strong></p>
+<ul>
+<li><code>dtstart</code>    开始时间</li>
+<li><code>dtend</code>        结束时间</li>
+</ul>
+<p><strong>返回值：</strong></p>
+<ul>
+<li><code>(number)</code>总时长，单位秒</li>
+</ul>
+<p><strong>例子：</strong></p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">--用户每月只能最多[预约]当前仪器8小时</span></div><div class="line">user_reserv_time(month_start(now), month_end(now)) &lt; <span class="number">8</span> * <span class="number">3600</span></div></pre></td></tr></table></figure>
+<hr>
+<h3 id="lab-time-dtstart-dtend"><a href="#lab-time-dtstart-dtend" class="headerlink" title="lab_time(dtstart, dtend)"></a><code>lab_time(dtstart, dtend)</code></h3><p><strong>功能：</strong></p>
+<p>判断当前用户所在课题组从dtstart到dtend之间，当前仪器已关联预约记录的<strong>使用</strong>时长</p>
+<p><strong>参数：</strong></p>
+<ul>
+<li><code>dtstart</code>    开始时间</li>
+<li><code>dtend</code>        结束时间</li>
+</ul>
+<p><strong>返回值：</strong></p>
+<ul>
+<li><code>(number)</code>总时长，单位秒</li>
+</ul>
+<hr>
+<h3 id="※lab-reserv-time-dtstart-dtend"><a href="#※lab-reserv-time-dtstart-dtend" class="headerlink" title="※lab_reserv_time(dtstart, dtend)"></a>※<code>lab_reserv_time(dtstart, dtend)</code></h3><p><strong>功能：</strong></p>
+<p>当前用户所在课题组从dtstart到dtend之间，当前仪器的<strong>预约</strong>时长</p>
+<p><strong>参数：</strong></p>
+<ul>
+<li><code>dtstart</code>    开始时间</li>
+<li><code>dtend</code>        结束时间</li>
+</ul>
+<p><strong>返回值：</strong></p>
+<ul>
+<li><code>(number)</code>总时长，单位秒</li>
+</ul>
+<hr>
+<h3 id="user-reserv-relative-time-dtstart-dtend-dtfrom-dto"><a href="#user-reserv-relative-time-dtstart-dtend-dtfrom-dto" class="headerlink" title="user_reserv_relative_time(dtstart, dtend, dtfrom, dto)"></a><code>user_reserv_relative_time(dtstart, dtend, dtfrom, dto)</code></h3><p><strong>功能：</strong></p>
+<p>获取用户某天的某个时段内预约时间, 当用户修改某预约时, 该预约不能在统计之内</p>
+<p>不推荐使用，应用范围实在太窄</p>
+<p><strong>参数：</strong></p>
+<ul>
+<li>dtstart 预约的开始时间</li>
+<li>dtend 预约的结束时间</li>
+<li>dtfrom 统计时段的开始时间</li>
+<li>dto 统计时段的结束时间</li>
+</ul>
+<p><strong>返回值：</strong></p>
+<ul>
+<li><code>(number)</code>总时长，单位秒</li>
+</ul>
+<p><strong>例子：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">--每天每用户在12点-17点，仅能预约1小时</div><div class="line">user_reserv_relative_time(</div><div class="line">day_start(now), day_end(now), </div><div class="line">today(&quot;12:00&quot;), today(&quot;17:00&quot;))</div><div class="line"> - (old_end_time - old_start_time)</div><div class="line"> + (end_time - start_time) &lt; 3600</div></pre></td></tr></table></figure>
+<hr>
+<h3 id="caculate-reserv-duration-time-dtstart-dtend-dtfrom-dto"><a href="#caculate-reserv-duration-time-dtstart-dtend-dtfrom-dto" class="headerlink" title="caculate_reserv_duration_time(dtstart, dtend, dtfrom, dto)"></a><code>caculate_reserv_duration_time(dtstart, dtend, dtfrom, dto)</code></h3><p><strong>功能：</strong></p>
+<p>计算dtstart-dtend范围的,在dtfrom-dto时段内的时间长度</p>
+<p><strong>参数：</strong></p>
+<ul>
+<li>dtstart 范围的开始时间</li>
+<li>dtend 范围的结束时间</li>
+<li>dtfrom 统计时段的开始时间</li>
+<li>dto 统计时段的结束时间</li>
+</ul>
+<p><strong>返回值：</strong></p>
+<ul>
+<li><code>(number)</code>总时长，单位秒</li>
+</ul>
+<p><strong>例子：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">--今日7点-19点范围内，落在今日12点-17点的时长</div><div class="line">caculate_reserv_duration_time(</div><div class="line">today(&quot;12:00&quot;), today(&quot;19:00&quot;), </div><div class="line">today(&quot;12:00&quot;), today(&quot;17:00&quot;)) --5h</div></pre></td></tr></table></figure>
+<hr>
+<h3 id="cut-to-days-dtstart-dtend"><a href="#cut-to-days-dtstart-dtend" class="headerlink" title="cut_to_days(dtstart, dtend)"></a><code>cut_to_days(dtstart, dtend)</code></h3><p><strong>功能：</strong></p>
+<p>将跨天时间截为数组</p>
+<p><strong>参数：</strong></p>
+<ul>
+<li>dtstart 开始时间</li>
+<li>dtend 结束时间</li>
+</ul>
+<p><strong>返回值：</strong></p>
+<ul>
+<li><p><code>(array)</code>截取后的时间数组</p>
+<ul>
+<li>[0] =&gt; Array</li>
+<li>(</li>
+<li>[dtstart] =&gt; 第一天的开始时间</li>
+<li>[dtend] =&gt; 第一天的结束时间</li>
+<li><p>)</p>
+</li>
+<li><p>[1] =&gt; Array</p>
+</li>
+<li>(</li>
+<li>[dtstart] =&gt; 第二天的开始时间</li>
+<li>[dtend] =&gt; 第二天开始时间</li>
+<li>)<br>……</li>
+</ul>
+</li>
+</ul>
+<p><strong>例子：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">--今日12点-后天17点截为3段</div><div class="line">days = cut_to_days(today(&quot;12:00:00&quot;), today(&quot; + 2 day 17:00:00&quot;))</div><div class="line"></div><div class="line">#days == 2</div><div class="line">days[0][&apos;dtstart&apos;] == today(&quot;12:00:00&quot;)</div><div class="line">days[1][&apos;dtend&apos;] == today(&quot;+ 1 day 00:00:00&quot;)</div><div class="line">days[2][&apos;dtstart&apos;] == today(&quot; + 2 day 00:00:00&quot;)</div></pre></td></tr></table></figure>
+<hr>
+<h3 id="components-dtstart-dtend-※仅2-16-1及之后可用※"><a href="#components-dtstart-dtend-※仅2-16-1及之后可用※" class="headerlink" title="components(dtstart, dtend)※仅2.16.1及之后可用※"></a><code>components(dtstart, dtend)</code>※仅2.16.1及之后可用※</h3><p><strong>功能：</strong></p>
+<p>时间段内的此人的预约记录信息 </p>
+<p><strong>参数：</strong></p>
+<ul>
+<li>dtstart 开始时间</li>
+<li>dtend 结束时间</li>
+</ul>
+<p><strong>返回值：</strong></p>
+<ul>
+<li><code>(array)</code>截取后的时间数组<ul>
+<li>[1] =&gt; Array</li>
+<li>(</li>
+<li>[dtstart] =&gt; 第一次预约的开始时间</li>
+<li>[dtend] =&gt; 第一次预约的结束时间</li>
+<li>)</li>
+<li>[2] =&gt; Array</li>
+<li>(</li>
+<li>[dtstart] =&gt; 第二次预约的开始时间</li>
+<li>[dtend] =&gt; 第二次预约的开始时间</li>
+<li>)</li>
+<li>……</li>
+<li>[total_time] 范围内总时长</li>
+</ul>
+</li>
+</ul>
+<p><strong>例子：</strong></p>
+<ul>
+<li>新增时，记录并不在计算范围内，需手动矫正</li>
+</ul>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">--每周不管时长，每人只能预约3次</span></div><div class="line">edit = old_start_time &gt; <span class="number">1</span> <span class="keyword">or</span> <span class="literal">false</span></div><div class="line"><span class="keyword">if</span> ((edit <span class="keyword">and</span> #components(week_start(start_time), week_end(start_time)) &lt;= <span class="number">3</span>)</div><div class="line">  <span class="keyword">or</span>(<span class="keyword">not</span>(edit) <span class="keyword">and</span> #components(week_start(start_time), week_end(start_time)) &lt;= <span class="number">2</span>)) <span class="keyword">then</span></div><div class="line">  can_reserv = <span class="literal">true</span></div><div class="line"><span class="keyword">end</span></div></pre></td></tr></table></figure>
+<h2 id="3-计费"><a href="#3-计费" class="headerlink" title="3.计费"></a>3.计费</h2><p>现阶段LIMS中常用到的Lua脚本有2类，预约自定义脚本和计费自定义脚本</p>
+<p>以下变量及函数只能在计费自定义脚本中使用</p>
+<p>※符号标记了重点函数，务必熟练使用。</p>
+<hr>
+<h3 id="※start-time"><a href="#※start-time" class="headerlink" title="※start_time"></a>※<code>start_time</code></h3><h3 id="※end-time"><a href="#※end-time" class="headerlink" title="※end_time"></a>※<code>end_time</code></h3><p><strong>功能：</strong></p>
+<p>变量，直接使用即可，其中送样为测样开始和结束时间</p>
+<p>###<code>user_id</code></p>
+<p><strong>功能：</strong></p>
+<p>变量，直接使用即可，当前对象的相关用户id，eq_reserv对象为预约者id，eq_sample为送样人id，eq_record为使用者id</p>
+<p>###<code>id</code></p>
+<p><strong>功能：</strong></p>
+<p>变量，直接使用即可，当前计费关联的使用、预约、送样记录对应ID</p>
+<h3 id="currency"><a href="#currency" class="headerlink" title="currency"></a><code>currency</code></h3><p><strong>功能：</strong></p>
+<p>变量，直接使用即可，价格单位，经常用于description，一般为<code>￥</code></p>
+<hr>
+<h3 id="lab-group-name-※现阶段有bug，不推荐使用※"><a href="#lab-group-name-※现阶段有bug，不推荐使用※" class="headerlink" title="lab_group(name)※现阶段有bug，不推荐使用※"></a><code>lab_group(name)</code>※现阶段有bug，不推荐使用※</h3><p><strong>功能：</strong></p>
+<p>判断用户所在课题组，是否在name组织机构下</p>
+<p><strong>参数：</strong></p>
+<ul>
+<li><code>name</code>,组织机构名</li>
+</ul>
+<p><strong>返回值：</strong></p>
+<ul>
+<li><code>(boolean)</code>，推荐放在<code>if</code>中使用</li>
+</ul>
+<p><strong>例子：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">if (lab_group(&quot;化工学院&quot;)) then</div></pre></td></tr></table></figure>
+<hr>
+<h3 id="lab-tag-name"><a href="#lab-tag-name" class="headerlink" title="lab_tag(name)"></a><code>lab_tag(name)</code></h3><p><strong>功能：</strong></p>
+<p>判断用户，是否在name用户标签下</p>
+<p><strong>参数：</strong></p>
+<ul>
+<li><code>name</code>,用户标签名</li>
+</ul>
+<p><strong>返回值：</strong></p>
+<ul>
+<li><code>(boolean)</code>，推荐放在if中使用</li>
+</ul>
+<p><strong>例子：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">if (lab_tag(&quot;授权用户&quot;)) then</div></pre></td></tr></table></figure>
+<hr>
+<h3 id="※user-tag-name-1"><a href="#※user-tag-name-1" class="headerlink" title="※user_tag(name)"></a>※<code>user_tag(name)</code></h3><p><strong>功能：</strong></p>
+<p>判断用户，是否在name用户标签下。相比<code>lab_tag</code>，唯一的区别是，会涉及中心管理员，在系统设置中的用户标签，推荐使用<code>user_tag</code>。</p>
+<p><strong>参数：</strong></p>
+<ul>
+<li><code>name</code>,用户标签名</li>
+</ul>
+<p><strong>返回值：</strong></p>
+<ul>
+<li><code>(boolean)</code>，推荐放在if中使用</li>
+</ul>
+<p><strong>例子：</strong></p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (user_tag(<span class="string">"授权用户"</span>)) <span class="keyword">then</span></div></pre></td></tr></table></figure>
+<hr>
+<h3 id="※charge-tag-name"><a href="#※charge-tag-name" class="headerlink" title="※charge_tag(name)"></a>※<code>charge_tag(name)</code></h3><p><strong>功能：</strong></p>
+<p>先设置计费标签，再通过此函数判断计费标签是否被选中(即使计费标签值为0，只要选中，<code>charge_tag</code>就为<code>true</code>)</p>
+<p><strong>参数：</strong></p>
+<ul>
+<li><code>name</code>,计费标签名</li>
+</ul>
+<p><strong>返回值：</strong></p>
+<ul>
+<li><code>(boolean)</code>，推荐放在if中使用</li>
+</ul>
+<hr>
+<h3 id="※charge-tag-value-name"><a href="#※charge-tag-value-name" class="headerlink" title="※charge_tag_value(name)"></a>※<code>charge_tag_value(name)</code></h3><p><strong>功能：</strong></p>
+<p>判断name是否属于该计费相关的计费标签，如果存在则返回标签值，不存在则返回0</p>
+<p><strong>参数：</strong></p>
+<ul>
+<li>name 计费标签名</li>
+</ul>
+<p><strong>返回值：</strong></p>
+<ul>
+<li><code>(number)</code>，计费标签值</li>
+</ul>
+<p><strong>例子：</strong></p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">--每个试剂瓶额外收费10元</span></div><div class="line"><span class="keyword">if</span> (charge_tag(<span class="string">"试剂瓶"</span>)) <span class="keyword">then</span></div><div class="line">  fee = fee + <span class="number">10</span> * charge_tag_value(<span class="string">"试剂瓶"</span>)</div><div class="line"><span class="keyword">end</span></div></pre></td></tr></table></figure>
+<hr>
+<h3 id="extra-field-value-category-name-key-※2-16-1及之后可用※"><a href="#extra-field-value-category-name-key-※2-16-1及之后可用※" class="headerlink" title="extra_field_value(category, name, key)※2.16.1及之后可用※"></a><code>extra_field_value(category, name, key)</code>※2.16.1及之后可用※</h3><p><strong>功能：</strong></p>
+<p>返回自定义表单的category类别下name字段，用户填写的具体值</p>
+<p><strong>现阶段只支持送样和使用</strong></p>
+<p><strong>参数：</strong></p>
+<ul>
+<li>category 自定义表单，类别</li>
+<li>name 自定义表单，字段</li>
+<li>key 自定义表单字段为多选、数值范围时必填</li>
+</ul>
+<p><strong>返回值：</strong></p>
+<ul>
+<li><code>(string)</code>，用户填写的具体值，自定义表单类别下字段不存在则为0</li>
+</ul>
+<p><strong>例子：</strong></p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">--使用自定义表单中，"样品信息"类别，"耗材"字段(文本类型)，用户送样记录填入的值(汉字)</span></div><div class="line">extra_field_value(<span class="string">"样品信息"</span>, <span class="string">"耗材"</span>)</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">--使用自定义表单中，&quot;使用类型&quot;类别，&quot;结果&quot;字段(数值范围类型)，用户使用记录填入的第一个值</div><div class="line">extra_field_value(&quot;使用记录&quot;, &quot;结果&quot;, &quot;0&quot;)</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">--使用自定义表单中，&quot;使用类型&quot;类别，&quot;值班老师&quot;字段(多选类型)，用户使用记录是否勾选&quot;A老师&quot;选项</div><div class="line">extra_field_value(&quot;使用记录&quot;, &quot;值班老师&quot;, &quot;A老师&quot;) == &apos;on&apos;</div><div class="line">--等价于:</div><div class="line">extra_field_value(&quot;使用记录&quot;, &quot;值班老师&quot;, &quot;A老师&quot;) ~= &apos;null&apos;</div></pre></td></tr></table></figure>
+<hr>
+<h3 id="records-dtstart-dtend"><a href="#records-dtstart-dtend" class="headerlink" title="records(dtstart, dtend)"></a><code>records(dtstart, dtend)</code></h3><p><strong>功能：</strong></p>
+<p>查找到所有对应仪器中dtstart到dtend之间有交错的所有使用记录，包括当前</p>
+<p><strong>参数：</strong></p>
+<ul>
+<li>dtstart    开始时间</li>
+<li>dtend        结束时间</li>
+<li>当开始结束时间都为0时，返回当前使用记录</li>
+</ul>
+<p><strong>返回值：</strong></p>
+<ul>
+<li><code>(array)</code>，所有使用记录详情<ul>
+<li>(</li>
+<li>[1] =&gt; Array</li>
+<li>(</li>
+<li>[id] =&gt; 使用记录ID</li>
+<li>[user_id] =&gt; 使用者ID</li>
+<li>[start_time] =&gt; 开始时间</li>
+<li>[end_time] =&gt; 结束时间</li>
+<li>[samples] =&gt; 样品数</li>
+<li>[reserv_id] =&gt; 关联送样记录ID，不存在时为0</li>
+<li>)</li>
+<li>[2] =&gt; Array</li>
+<li>(</li>
+<li>[id] =&gt;</li>
+<li>[user_id] =&gt;</li>
+<li>[start_time] =&gt;</li>
+<li>[end_time] =&gt;</li>
+<li>[samples] =&gt;</li>
+<li>[reserv_id] =&gt;</li>
+<li>)</li>
+<li>……</li>
+</ul>
+</li>
+</ul>
+<p><strong>例子：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">--当前使用记录的样品数</div><div class="line">records()[1][&apos;samples&apos;]</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">--昨日0点至今日12点，当前使用者一共有count条使用记录</div><div class="line">count = #records(today(&quot;yesterday 00:00:00&quot;), today(&quot;12:00:00&quot;))</div></pre></td></tr></table></figure>
+<hr>
+<h3 id="reservs-dtstart-dtend"><a href="#reservs-dtstart-dtend" class="headerlink" title="reservs(dtstart, dtend)"></a><code>reservs(dtstart, dtend)</code></h3><p><strong>功能：</strong></p>
+<p>查找到所有对应仪器中dtstart到dtend之间有交错的所有预约记录，包括当前</p>
+<p><strong>参数：</strong></p>
+<ul>
+<li>dtstart    开始时间</li>
+<li>dtend   结束时间</li>
+<li>当开始结束时间都为0时，返回当前预约记录</li>
+</ul>
+<p><strong>返回值：</strong></p>
+<ul>
+<li><code>(array)</code>，所有预约记录详情<ul>
+<li>(</li>
+<li>[1] =&gt; Array</li>
+<li>(</li>
+<li>[id] =&gt; 预约记录ID</li>
+<li>[start_time] =&gt; 开始时间</li>
+<li>[end_time] =&gt; 结束时间</li>
+<li>[status] =&gt; 预约状态[0-正常预约，1-正常使用，2-爽约，4-超时，5-迟到，6-迟到超时]</li>
+<li>)</li>
+<li>[2] =&gt; Array</li>
+<li>(</li>
+<li>[id] =&gt;</li>
+<li>[start_time] =&gt;</li>
+<li>[end_time] =&gt;</li>
+<li>[status] =&gt;</li>
+<li>)</li>
+<li>……</li>
+</ul>
+</li>
+</ul>
+<p><strong>例子：</strong></p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">--当前预约记录的状态</span></div><div class="line">reservs()[<span class="number">1</span>][<span class="string">'status'</span>]</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">--昨日0点至今日12点，当前预约者一共有count条预约记录</div><div class="line">count = #reservs(today(&quot;yesterday 00:00:00&quot;), today(&quot;12:00:00&quot;))</div></pre></td></tr></table></figure>
+<hr>
+<p>###※<code>sample()</code></p>
+<p><strong>功能：</strong></p>
+<p>当前送样记录信息</p>
+<p><strong>参数：</strong></p>
+<ul>
+<li>无</li>
+</ul>
+<p><strong>返回值：</strong></p>
+<ul>
+<li><code>(array)</code>，当前送样记录详情<ul>
+<li>[id] =&gt; 送样记录ID</li>
+<li>[start_time] =&gt; 测样开始时间</li>
+<li>[end_time] =&gt; 测样结束时间</li>
+<li>[count] =&gt; 样品数</li>
+<li>[status] =&gt; 送样状态[1-申请中，2-已批准，3-申请培训被拒绝，4-因故取消，5-已测试]</li>
+<li>[submit_time] =&gt; 送样时间</li>
+<li>[pickup_time] =&gt; 取样时间</li>
+</ul>
+</li>
+</ul>
+<p><strong>例子：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">--当前测样样品数</div><div class="line">sample()[&apos;count&apos;]</div></pre></td></tr></table></figure>
+<hr>
+<h3 id="※record"><a href="#※record" class="headerlink" title="※record()"></a>※<code>record()</code></h3><p><strong>功能：</strong></p>
+<p>当前使用记录信息</p>
+<p><strong>参数：</strong></p>
+<ul>
+<li>无</li>
+</ul>
+<p><strong>返回值：</strong></p>
+<ul>
+<li><code>(array)</code>，当前使用记录详情<ul>
+<li>[id] =&gt; 使用记录ID</li>
+<li>[start_time] =&gt; 开始时间</li>
+<li>[end_time] =&gt; 结束时间</li>
+<li>[samples] =&gt; 样品数</li>
+<li>[reserv_id] =&gt; 关联预约ID</li>
+<li>[reserv_start_time] =&gt; 关联预约开始时间</li>
+<li>[reserv_end_time] =&gt; 关联预约结束时间</li>
+</ul>
+</li>
+</ul>
+<p><strong>例子：</strong></p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">--当前使用记录样品数</span></div><div class="line">record()[<span class="string">'count'</span>]</div></pre></td></tr></table></figure>
+<hr>
+<h3 id="connect-record-sid"><a href="#connect-record-sid" class="headerlink" title="connect_record(sid)"></a><code>connect_record(sid)</code></h3><p><strong>功能：</strong></p>
+<p>根据当前送样记录，获得关联的使用记录信息</p>
+<p><strong>参数：</strong></p>
+<ul>
+<li><code>sid</code> 送样记录ID，如果不传则取当前送样记录关联的使用记录</li>
+</ul>
+<p><strong>返回值：</strong></p>
+<ul>
+<li>[id] =&gt; 使用记录ID</li>
+<li>[start_time] =&gt; 开始时间</li>
+<li>[end_time] =&gt; 结束时间</li>
+<li>[samples] =&gt; 样品数</li>
+</ul>
+<hr>
+<h3 id="connect-samples-rid"><a href="#connect-samples-rid" class="headerlink" title="connect_samples(rid)"></a><code>connect_samples(rid)</code></h3><p><strong>功能：</strong></p>
+<p>根据当前使用记录，获得关联的送样记录信息</p>
+<p><strong>参数：</strong></p>
+<ul>
+<li><code>rid</code>使用记录ID，如果不传则取当前送样记录关联的送样记录</li>
+</ul>
+<p><strong>返回值：</strong></p>
+<ul>
+<li><code>(array)</code>，所有送样记录详情<ul>
+<li>(</li>
+<li>[1] =&gt; Array</li>
+<li>(</li>
+<li>[id] =&gt; 使用记录ID</li>
+<li>[start_time] =&gt; 测样开始时间</li>
+<li>[end_time] =&gt; 测样结束时间</li>
+<li>[count] =&gt; 样品数</li>
+<li>[status] =&gt; 送样状态[1-申请中，2-已批准，3-申请培训被拒绝，4-因故取消，5-已测试]</li>
+<li>[submit_time] =&gt; 送样时间</li>
+<li>[pickup_time] =&gt; 取样时间</li>
+<li>)</li>
+<li>[2] =&gt; Array</li>
+<li>(</li>
+<li>[id] =&gt;</li>
+<li>[start_time] =&gt;</li>
+<li>[end_time] =&gt;</li>
+<li>[count] =&gt;</li>
+<li>[status] =&gt;</li>
+<li>[submit_time] =&gt; </li>
+<li>[pickup_time] =&gt; </li>
+<li>)</li>
+<li>……</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="user-tags-uid"><a href="#user-tags-uid" class="headerlink" title="user_tags(uid)"></a><code>user_tags(uid)</code></h3><p><strong>功能：</strong></p>
+<p>返回当前用户或者uid用户的用户标签，包含中心管理员在系统设置中设置的</p>
+<p><strong>参数：</strong></p>
+<ul>
+<li><code>uid</code>人员ID，如果不传则取当前用户</li>
+</ul>
+<p><strong>返回值：</strong></p>
+<ul>
+<li><code>(array)</code>，用户的所有标签<ul>
+<li>(</li>
+<li>[1] =&gt; 校内</li>
+<li>[2] =&gt; 已授权</li>
+<li>)</li>
+<li>……</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="lab-reserv-time-dtstart-dtend"><a href="#lab-reserv-time-dtstart-dtend" class="headerlink" title="lab_reserv_time(dtstart, dtend)"></a><code>lab_reserv_time(dtstart, dtend)</code></h3><p><strong>功能：</strong></p>
+<p>返回当前用户所在课题组累计预约时长，包含此次</p>
+<p><strong>参数：</strong></p>
+<ul>
+<li>dtstart    开始时间</li>
+<li>dtend   结束时间</li>
+</ul>
+<p><strong>返回值：</strong></p>
+<ul>
+<li><code>(number)</code>，课题组累计预约时长</li>
+</ul>
+<hr>
+<h3 id="lab-record-time-dtstart-dtend"><a href="#lab-record-time-dtstart-dtend" class="headerlink" title="lab_record_time(dtstart, dtend)"></a><code>lab_record_time(dtstart, dtend)</code></h3><p><strong>功能：</strong></p>
+<p>返回当前用户所在课题组累计使用时长，包含此次</p>
+<p><strong>参数：</strong></p>
+<ul>
+<li>dtstart    开始时间</li>
+<li>dtend   结束时间</li>
+</ul>
+<p><strong>返回值：</strong></p>
+<ul>
+<li><code>(number)</code>，课题组累计预约时长</li>
+</ul>
+<hr>
+<p>###※<code>T(string, params)</code></p>
+<p><strong>功能：</strong></p>
+<p>sprintf的升级版，在params中以数组形式传入参数，还带翻译特效</p>
+<p><strong>推荐description中使用</strong></p>
+<p><strong>参数：</strong></p>
+<ul>
+<li>string    规定字符串</li>
+<li>params      参数数组</li>
+</ul>
+<p><strong>返回值：</strong></p>
+<ul>
+<li>替换后的字符串</li>
+</ul>
+<p><strong>例子：</strong></p>
+<ul>
+<li>描述收费备注时常用</li>
+</ul>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">params= &#123;&#125;</div><div class="line">params[<span class="string">'%currency'</span>] = currency</div><div class="line">params[<span class="string">'%price'</span>] = <span class="number">6</span></div><div class="line">params[<span class="string">'%time'</span>] = <span class="number">10</span></div><div class="line">params[<span class="string">'%fee'</span>] = <span class="number">10</span> *<span class="number">6</span> </div><div class="line"></div><div class="line">dtemplate =<span class="string">'&lt;span&gt;%currency%price/小时 * %time&lt;/span&gt; '</span></div><div class="line">         ..<span class="string">'&lt;span&gt;共计 %currency%fee 元&lt;/span&gt;'</span></div><div class="line"></div><div class="line">description =  T(<span class="string">'&lt;p&gt;'</span>..dtemplate..<span class="string">'&lt;/p&gt;'</span>,params)</div><div class="line"><span class="comment">--收费备注一栏此时为如下字样：¥6/小时 * 10 共计 ¥60 元</span></div></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Lua/" rel="tag"># Lua</a>
+          
+            <a href="/tags/Lims/" rel="tag"># Lims</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/04/06/Lua/" rel="next" title="Lua基础设置">
+                <i class="fa fa-chevron-left"></i> Lua基础设置
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/photo.jpeg"
+               alt="Unpc" />
+          <p class="site-author-name" itemprop="name">Unpc</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/unpc" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="cheng.liu@geneegroup.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                    
+                      E-Mail
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#LIMS暴露函数整理"><span class="nav-number">1.</span> <span class="nav-text">LIMS暴露函数整理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-基础"><span class="nav-number">1.1.</span> <span class="nav-text">1.基础</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#※now"><span class="nav-number">1.1.1.</span> <span class="nav-text">※now</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#※dateT-time"><span class="nav-number">1.1.2.</span> <span class="nav-text">※dateT(time)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#week-day-time"><span class="nav-number">1.1.3.</span> <span class="nav-text">week_day(time)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#month-time"><span class="nav-number">1.1.4.</span> <span class="nav-text">month(time)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#month-day-time"><span class="nav-number">1.1.5.</span> <span class="nav-text">month_day(time)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#today-time"><span class="nav-number">1.1.6.</span> <span class="nav-text">today(time)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#month-start-time"><span class="nav-number">1.1.7.</span> <span class="nav-text">month_start(time)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#month-end-time"><span class="nav-number">1.1.8.</span> <span class="nav-text">month_end(time)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#※week-start-time"><span class="nav-number">1.1.9.</span> <span class="nav-text">※week_start(time)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#※week-end-time"><span class="nav-number">1.1.10.</span> <span class="nav-text">※week_end(time)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#※day-start-time"><span class="nav-number">1.1.11.</span> <span class="nav-text">※day_start(time)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#※day-end-time"><span class="nav-number">1.1.12.</span> <span class="nav-text">※day_end(time)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#days-number"><span class="nav-number">1.1.13.</span> <span class="nav-text">days(number)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#second-to-hour-time-n"><span class="nav-number">1.1.14.</span> <span class="nav-text">second_to_hour(time, n)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sprintf-str-arg1-arg2"><span class="nav-number">1.1.15.</span> <span class="nav-text">sprintf(str, arg1, arg2 ....)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#round-float-n"><span class="nav-number">1.1.16.</span> <span class="nav-text">round(float, n)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#date-format-timestamp"><span class="nav-number">1.1.17.</span> <span class="nav-text">date(format,timestamp)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#※mktime-hour-minute-second-month-day-year"><span class="nav-number">1.1.18.</span> <span class="nav-text">※mktime(hour,minute,second,month,day,year);</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#strong-string"><span class="nav-number">1.1.19.</span> <span class="nav-text">strong(string)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-预约相关"><span class="nav-number">1.2.</span> <span class="nav-text">2.预约相关</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#is-incharge"><span class="nav-number">1.2.1.</span> <span class="nav-text">is_incharge()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#is-contact"><span class="nav-number">1.2.2.</span> <span class="nav-text">is_contact()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#※user-tag-name"><span class="nav-number">1.2.3.</span> <span class="nav-text">※user_tag(name)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#user-time-dtstart-dtend"><span class="nav-number">1.2.4.</span> <span class="nav-text">user_time(dtstart, dtend)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#※user-reserv-time-dtstart-dtend"><span class="nav-number">1.2.5.</span> <span class="nav-text">※user_reserv_time(dtstart, dtend)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#lab-time-dtstart-dtend"><span class="nav-number">1.2.6.</span> <span class="nav-text">lab_time(dtstart, dtend)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#※lab-reserv-time-dtstart-dtend"><span class="nav-number">1.2.7.</span> <span class="nav-text">※lab_reserv_time(dtstart, dtend)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#user-reserv-relative-time-dtstart-dtend-dtfrom-dto"><span class="nav-number">1.2.8.</span> <span class="nav-text">user_reserv_relative_time(dtstart, dtend, dtfrom, dto)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#caculate-reserv-duration-time-dtstart-dtend-dtfrom-dto"><span class="nav-number">1.2.9.</span> <span class="nav-text">caculate_reserv_duration_time(dtstart, dtend, dtfrom, dto)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cut-to-days-dtstart-dtend"><span class="nav-number">1.2.10.</span> <span class="nav-text">cut_to_days(dtstart, dtend)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#components-dtstart-dtend-※仅2-16-1及之后可用※"><span class="nav-number">1.2.11.</span> <span class="nav-text">components(dtstart, dtend)※仅2.16.1及之后可用※</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-计费"><span class="nav-number">1.3.</span> <span class="nav-text">3.计费</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#※start-time"><span class="nav-number">1.3.1.</span> <span class="nav-text">※start_time</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#※end-time"><span class="nav-number">1.3.2.</span> <span class="nav-text">※end_time</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#currency"><span class="nav-number">1.3.3.</span> <span class="nav-text">currency</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#lab-group-name-※现阶段有bug，不推荐使用※"><span class="nav-number">1.3.4.</span> <span class="nav-text">lab_group(name)※现阶段有bug，不推荐使用※</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#lab-tag-name"><span class="nav-number">1.3.5.</span> <span class="nav-text">lab_tag(name)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#※user-tag-name-1"><span class="nav-number">1.3.6.</span> <span class="nav-text">※user_tag(name)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#※charge-tag-name"><span class="nav-number">1.3.7.</span> <span class="nav-text">※charge_tag(name)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#※charge-tag-value-name"><span class="nav-number">1.3.8.</span> <span class="nav-text">※charge_tag_value(name)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#extra-field-value-category-name-key-※2-16-1及之后可用※"><span class="nav-number">1.3.9.</span> <span class="nav-text">extra_field_value(category, name, key)※2.16.1及之后可用※</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#records-dtstart-dtend"><span class="nav-number">1.3.10.</span> <span class="nav-text">records(dtstart, dtend)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#reservs-dtstart-dtend"><span class="nav-number">1.3.11.</span> <span class="nav-text">reservs(dtstart, dtend)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#※record"><span class="nav-number">1.3.12.</span> <span class="nav-text">※record()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#connect-record-sid"><span class="nav-number">1.3.13.</span> <span class="nav-text">connect_record(sid)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#connect-samples-rid"><span class="nav-number">1.3.14.</span> <span class="nav-text">connect_samples(rid)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#user-tags-uid"><span class="nav-number">1.3.15.</span> <span class="nav-text">user_tags(uid)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#lab-reserv-time-dtstart-dtend"><span class="nav-number">1.3.16.</span> <span class="nav-text">lab_reserv_time(dtstart, dtend)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#lab-record-time-dtstart-dtend"><span class="nav-number">1.3.17.</span> <span class="nav-text">lab_record_time(dtstart, dtend)</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Unpc</span>
+
+  
+</div>
+
+
+  <div class="powered-by">
+    由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+  </div>
+
+  <span class="post-meta-divider">|</span>
+
+  <div class="theme-info">
+    主题 &mdash;
+    <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+      NexT.Pisces
+    </a>
+  </div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
